@@ -1,0 +1,9 @@
+Django==3.0.8
+tweepy==3.8.0
+celery==4.4.6
+MarkupSafe==1.1.1
+mysqlclient==2.0.1
+requests==2.24.0
+emoji==0.5.4
+drf-yasg==1.17.1
+djangorestframework==3.11.0

@@ -3,7 +3,7 @@
 
 from celery.utils.log import get_task_logger
 from django.db.models import Max
-from app_for_trafic.utils.twitter_module import BotTwitter
+
 from bot_for_trafic.base_conf import BaseConf
 
 from .models import (
@@ -15,6 +15,7 @@ from .models import (
     StatusFilterText)
 from .utils.decorators import CustomCeleryTask
 from .utils.twitter_access import TwitterAccess
+from .utils.twitter_module import BotTwitter
 
 logger = get_task_logger(__name__)
 

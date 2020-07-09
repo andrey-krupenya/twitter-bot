@@ -16,7 +16,11 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.views.generic import TemplateView
-from app_for_trafic.views import (index as IndexMethods)
+from app_for_trafic.views import (
+    index as IndexMethods,
+    login as Login
+)
+from app_for_trafic.swagger_doc.urls import urlpatterns_swagger
 
 urlpatterns = [
     url(r'^secure_admin_url/', admin.site.urls),
@@ -28,3 +32,10 @@ urlpatterns = [
     url(r'^robots.txt$', TemplateView.as_view(template_name="meta/robots.txt", content_type="text/plain"),
         name="robots_file"),
 ]
+
+urlpatterns_api_auth = [
+    url(r'^login_user/$', Login.user_login, name='login'),
+    url(r'^logout_user/$', Login.user_logout, name='logout'),
+]
+
+urlpatterns = urlpatterns + urlpatterns_swagger + urlpatterns_api_auth

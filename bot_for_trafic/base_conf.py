@@ -6,9 +6,6 @@ import os
 
 class BaseConf(object):
 
-    def __int__(self):
-        pass
-
     DATABASES_MAIN = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -22,6 +19,13 @@ class BaseConf(object):
         }
     }
 
+    DATABASES_MAIN_SQLITE = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'bot_db',
+        }
+    }
+
     telegram_chat_id = os.getenv('telegram_chat_id', -123123123)
     telegram_token = os.getenv('telegram_token', 'bot12123:AAdf1pMO_TuoGrdfvrfvvf83eWPpl555C1AxM')
 
@@ -31,11 +35,19 @@ class BaseConf(object):
     email_port = os.getenv('email_port', 465)
     SITE_URL_BASE = os.getenv('site_url', 'social-bot.domain')
     MAIN_SITE_URL = ['localhost',
+                     '127.0.0.1',
                      SITE_URL_BASE]
 
     BASE_TEXT_FOR_SEARCH = "candy"
+    AUTH_TOKEN_SERVICE = os.getenv('auth_token', '34fiou3doioi23dhhUYGUr76fUY96k')
+    DEBUG_MAIN = True
 
-    DEBUG_MAIN = False
+    retry_policy = {
+        'max_retries': 5,
+        'interval_start': 60 * 5,
+        'interval_step': 60 * 15,
+        'interval_max': 60 * 10,
+    }
 
     # REDIS
     REDIS_HOST = "localhost"

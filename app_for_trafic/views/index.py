@@ -1,13 +1,12 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import logging
 
+from http import HTTPStatus
 from django.db.models import Max
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 
+from bot_for_trafic.base_conf import BaseConf
+from ..tasks import reply_for_tweet
 from ..models import UserTwitter, Tweets
 from ..utils.twitter_module import BotTwitter
 
@@ -33,7 +32,7 @@ def credential_for_access(request, user_id):
                                 access_token_secret=access_token_secret_)
         name_user = bot_object.get_name_user()._json
         # bot_object.listener_tweets()
-        return JsonResponse(data=name_user, status=200)
+        return JsonResponse(data=name_user, status=HTTPStatus.OK)
     except Exception as e:
         logging.error("[e] credential_for_access - Bot twitter not init. {}".format(e))
         return HttpResponse('Some error! {}'.format(e))
@@ -55,8 +54,12 @@ def search_by_query_string(request, user_id, search_text_in_twits):
                                 access_token=access_token_,
                                 access_token_secret=access_token_secret_)
         max_id = Tweets.objects.filter().aggregate(max_id=Max('id_tweet'))
-        find_tweets = bot_object.search_by_text(search_text_in_twits, max_id=max_id.get('max_id'))
-        return JsonResponse(data=find_tweets, status=200)
+        id_tweets = bot_object.search_by_text(search_text_in_twits, max_id=max_id.get('max_id'))
+        for _ in id_tweets:
+            reply_for_tweet.apply_async(args=[str(_)], countdown=15, retry=True,
+                                        retry_policy=BaseConf.retry_policy,
+                                        queue="reply_tweet")
+        return JsonResponse(data=id_tweets, status=HTTPStatus.OK)
     except Exception as e:
         logging.error("[e] credential_for_access - Bot twitter not init. {}".format(e))
         return HttpResponse('Some error!')

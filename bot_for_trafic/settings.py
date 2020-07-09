@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+
+from django.urls import reverse_lazy
+
 from .base_conf import BaseConf
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -39,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app_for_trafic.apps.AppForTraficConfig',
+    'rest_framework',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -77,7 +82,7 @@ WSGI_APPLICATION = 'bot_for_trafic.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-DATABASES = BaseConf.DATABASES_MAIN
+DATABASES = BaseConf.DATABASES_MAIN_SQLITE
 CELERY_BROKER_URL = BaseConf.CELERY_BROKER_URL
 CELERY_RESULT_BACKEND = BaseConf.CELERY_RESULT_BACKEND
 # CELERY_BROKER_TRANSPORT_OPTIONS = BaseConf.CELERY_BROKER_TRANSPORT_OPTIONS
@@ -108,6 +113,24 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_AUTHENTICATION_CLASSES': ('app_for_trafic.utils.auth.CustomTokenAuthentication',),
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
+}
+
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': False,
+    'SECURITY_REQUIREMENTS': None,
+    'SECURITY_DEFINITIONS': {
+        "api_key": {
+            "type": "apiKey",
+            "name": "X-Auth-Token",
+            "in": "header"
+        }
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
@@ -123,6 +146,14 @@ USE_L10N = True
 USE_TZ = True
 
 LOCALE_PATHS = (os.path.join(BASE_DIR, 'app_for_trafic', 'locale'),)
+
+LOGIN_URL = reverse_lazy('login')
+LOGOUT_URL = reverse_lazy('logout')
+
+TIME = 3 * 60 * 60
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = TIME
+SESSION_IDLE_TIMEOUT = TIME
 
 LOG_FILE = os.path.join(BASE_DIR, 'logs', 'app_for_trafic.log')
 LOGGING = {

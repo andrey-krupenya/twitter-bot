@@ -4,12 +4,12 @@
 import tweepy
 import logging
 
+from typing import List
 from datetime import datetime, timedelta
 
 from ..models import StatusTweet, Tweets, FilterText
 from ..utils.utils import strip_emoji, filter_printable_char
 from ..utils.botsendmessage import SendMessageToBot
-from ..tasks import reply_for_tweet
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +54,7 @@ class BotTwitter(object):
         """
         return self._api.me()
 
-    def search_by_text(self, query_text: str, max_id: int = None) -> int:
+    def search_by_text(self, query_text: str, max_id: int = None) -> List[int]:
         """
         Search tweets by some text
         :param query_text: str
@@ -64,10 +64,11 @@ class BotTwitter(object):
         :return: list[dict]
             Data for work
         """
+        id_tweets = []
         text_list_include = FilterText.objects.filter(id_status=1).values_list('text') or []
         if not text_list_include:
             logging.error("[e] reply_for_tweet_by_id - Please check filter_text table or fix query")
-            return 0
+            return id_tweets
         text_list_exclude = FilterText.objects.filter(id_status=2).values_list('text') or []
         from_date = datetime.now() - timedelta(days=1)
         to_date = datetime.now() + timedelta(days=1)
@@ -124,19 +125,13 @@ class BotTwitter(object):
                 new_tweet.save()
                 logging.info("Add {0} row. ID: {1}".format(i, new_tweet.pk))
                 logging.info("MAX ID: {}".format(str(item.id)))
-                reply_for_tweet.apply_async(args=[str(item.id)], countdown=15, retry=True,
-                                            retry_policy={
-                                                'max_retries': 5,
-                                                'interval_start': 60 * 5,
-                                                'interval_step': 60 * 15,
-                                                'interval_max': 60 * 10,
-                                                                     },
-                                            queue="reply_tweet")
+                id_tweets.append(item.id)
+                return item.id
             except Exception as e:
                 logging.exception("Error search_by_text. {}".format(e))
                 i -= 1
                 continue
-        return i
+        return id_tweets
 
     def listener_tweets(self):
         sapi = tweepy.streaming.Stream(self._auth, CustomStreamListener())
