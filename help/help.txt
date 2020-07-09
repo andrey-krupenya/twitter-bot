@@ -1,0 +1,5 @@
+celery worker -A bot_for_trafic -Q received_queue -B -l info -E
+
+systemctl start celery_bot_beat
+systemctl status celery_bot_beat
+systemctl enable /var/www/bot/app/help/celery_bot_beat.service
