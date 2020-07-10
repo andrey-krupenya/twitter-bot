@@ -7,6 +7,7 @@ import logging
 from typing import List
 from datetime import datetime, timedelta
 
+from bot_for_trafic.base_conf import BaseConf
 from ..models import StatusTweet, Tweets, FilterText
 from ..utils.utils import strip_emoji, filter_printable_char
 from ..utils.botsendmessage import SendMessageToBot
@@ -135,7 +136,7 @@ class BotTwitter(object):
 
     def listener_tweets(self):
         sapi = tweepy.streaming.Stream(self._auth, CustomStreamListener())
-        sapi.filter(track=['essay'])
+        sapi.filter(track=[BaseConf.BASE_TEXT_FOR_SEARCH])
         # sapi.filter(locations=[-6.38, 49.87, 1.77, 55.81])
 
     def reply_for_tweet_by_id(self, tweet_id: int, text_response: str, user_name: str) -> bool:
