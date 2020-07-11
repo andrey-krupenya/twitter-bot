@@ -1,12 +1,14 @@
 # Tweeter Bot
 
-This application helps you automate work with tweeter.
-Search special words and generate efficient answer from templates.
+This application helps you automate work with the tweeter.
+Search special words and generate efficient answers from templates.
 
 ## Getting Started
 
-This application build on Django Framework.
-For run it? please get code from repository. Set environment with requirements.
+This application builds on the Django Framework.
+To run it, please get code from the repository. 
+Set the environment with requirements.
+
 And run: 
 ```
 python manage.py runserver
@@ -36,7 +38,7 @@ Check all conditions.
 ### And coding style tests
 
 Use PEP8 as a base style. 
-Also you can use google advanced for python code style
+Also, you can use google advanced for python code style
 
 ## Built With
 
