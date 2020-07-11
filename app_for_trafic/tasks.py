@@ -101,7 +101,7 @@ def reply_for_tweet(id_tweet):
             text_response=base_text.text,
             user_name=tweet.get("name_screen"))
     except Exception as err:
-        logger.error("[e] test_reply_tweet - Bot twitter finish work with error. {}".format(err))
+        logger.error("[e] reply_on_tweet - Bot twitter finish work with error. {}".format(err))
         UserTwitter.objects.filter(id=id_record).update(**dict_count_use)
         return False
 

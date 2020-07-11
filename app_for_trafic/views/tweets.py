@@ -187,7 +187,7 @@ def search_by_query_string(request, user_id):
 )
 @api_view(['POST'])
 @authentication_classes((CustomTokenAuthentication, ))
-def test_reply_tweet(request, tweet_id):
+def reply_on_tweet(request, tweet_id):
     data_auth = UserTwitter.objects.filter(
         id_role=RoleUserTwitter.USER
     ).order_by(
@@ -223,7 +223,7 @@ def test_reply_tweet(request, tweet_id):
                                          text_response="Hi! I can help you!!!",
                                          user_name=tweet.name_screen)
     except Exception as err:
-        logger.error("[e] test_reply_tweet - Bot twitter finish work with error. {}".format(err))
+        logger.error("[e] reply_on_tweet - Bot twitter finish work with error. {}".format(err))
         UserTwitter.objects.filter(pk=id_record).update(**dict_count_use)
         return JsonResponse(data={"message": f"Error: {err}"},
                             status=status.HTTP_404_NOT_FOUND)

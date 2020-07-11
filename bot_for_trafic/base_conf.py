@@ -16,6 +16,11 @@ class BaseConf(object):
             'OPTIONS': {
                 "init_command": "SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;"
             },
+            'TEST': {
+                'TEST_CHARSET': 'utf8mb4',
+                'TEST_COLLATION': 'utf8mb4_unicode_ci',
+                'NAME': 'auto_tests',
+            }
         }
     }
 
@@ -23,6 +28,9 @@ class BaseConf(object):
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': 'bot_db',
+        },
+        'TEST': {
+            'NAME': 'auto_tests',
         }
     }
 

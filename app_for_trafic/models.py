@@ -31,9 +31,6 @@ class ReplyText(models.Model):
         verbose_name = "Text reply"
         verbose_name_plural = "Text replies"
 
-    class AdditionalAttr:
-        make_fixture = True
-
     def __unicode__(self):
         return "%s" % self.text
 
@@ -115,9 +112,6 @@ class Tweets(models.Model):
         verbose_name_plural = "Tweets"
         ordering = ["-id_tweet"]
 
-    class AdditionalAttr:
-        make_fixture = True
-
     def __unicode__(self):
         return "%s at %s : %s" % (self.name_screen, self.create_at, self.text_tweet)
 
@@ -137,9 +131,6 @@ class UserTwitter(models.Model):
         db_table = 'user_twitter'
         verbose_name = "User twitter"
         verbose_name_plural = "Users twitter"
-
-    class AdditionalAttr:
-        make_fixture = True
 
     def __unicode__(self):
         return "%s - role: %s; status:%s; count: %s" % (self.name, self.id_role.name,

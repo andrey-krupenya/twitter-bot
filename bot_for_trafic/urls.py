@@ -35,7 +35,7 @@ urlpatterns = [
         TweetApi.search_by_query_string,
         name="search_text_in_twits"),
     url(r'^send_test_reply/(?P<tweet_id>\d+)$',
-        TweetApi.test_reply_tweet,
+        TweetApi.reply_on_tweet,
         name="send_test_reply"),
     url(r'^robots.txt$',
         TemplateView.as_view(template_name="meta/robots.txt", content_type="text/plain"),
