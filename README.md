@@ -43,6 +43,7 @@ Also, you can use google advanced for python code style
 ## Built With
 
 * [DRF](https://www.django-rest-framework.org/) - The Django rest framework used
+* [Tweepy](https://www.tweepy.org/) - Python library for accessing the Twitter API
 * [Google style guide](https://google.github.io/styleguide/pyguide.html) - Google style guide
 
 
