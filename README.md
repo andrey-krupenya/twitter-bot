@@ -60,4 +60,3 @@ This project is licensed under the GNU License - see the [LICENSE.md](LICENSE.md
 
 * Hat tip to anyone whose code was used
 * Inspiration
-* etc
