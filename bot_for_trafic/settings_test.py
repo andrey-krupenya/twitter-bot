@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'bot_for_trafic.wsgi.application'
 # RUN TEST CONFIG
 MIGRATION_MODULES = DisableMigrations()
 TEST_RUNNER = 'app_for_trafic.custom_test_runner.UnManagedModelTestRunner'
-FIXTURE_DIRS = os.path.join(BASE_DIR, 'mail_server', 'fixtures')
+FIXTURE_DIRS = os.path.join(BASE_DIR, 'app_for_trafic', 'fixtures')
 FIXTURE_FILES = os.path.join(FIXTURE_DIRS, 'fixture_for_testing.json')
 TEST_SETTINGS_CONFIG = True
 
